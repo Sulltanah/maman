@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ma'man · مأمن — Know your privacy risk before you share</title>
+<meta name="description" content="Ma'man (مأمن) is a local-first tool that measures how easily people in a CSV file can be re-identified — even without names — and generates a safer copy for sharing. Built with Qwen2.5-3B, LoRA, multilingual E5 retrieval and code-based k-anonymity checks.">
+<meta name="author" content="Sultanah Alotaibi, Wafa Alotaibi, Samar Alfallaj">
+<meta name="theme-color" content="#071526">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://sulltanah.github.io/maman/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ma'man · مأمن — Know your privacy risk before you share">
+<meta property="og:description" content="Removing names isn't enough. Ma'man scores re-identification risk in CSV datasets and builds a safer copy that keeps as much of the data as it can.">
+<meta property="og:image" content="https://sulltanah.github.io/maman/assets/og-image.png">
+<meta property="og:url" content="https://sulltanah.github.io/maman/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main" data-i18n="skip">Skip to content</a>
+<div class="sadu-bar" aria-hidden="true"></div>
+
+<header class="nav" id="top">
+  <div class="nav-in">
+    <a class="brand" href="#top" aria-label="Ma'man home"><img src="assets/logo.webp" alt="مأمن Ma'man" width="104" height="48"></a>
+    <nav class="links" aria-label="Sections">
+      <a href="#problem" data-i18n="nav.problem">The problem</a>
+      <a href="#demo" data-i18n="nav.demo">Demo</a>
+      <a href="#how" data-i18n="nav.how">How it works</a>
+      <a href="#screens" data-i18n="nav.screens">Screens</a>
+      <a href="#results" data-i18n="nav.results">Results</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="lang" id="langBtn" type="button" aria-label="Switch language"><span class="lang-ar">العربية</span><span class="lang-en">English</span></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═════════════ HERO ═════════════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <span class="pill"><span class="dot"></span><span data-i18n="hero.pill">Tuwaiq LLM Bootcamp · Team project</span></span>
+      <h1><span data-i18n="hero.h1a">Know your privacy risk</span><br><span class="grad" data-i18n="hero.h1b">before you share.</span></h1>
+      <p class="lede" data-i18n="hero.lede">Even without names, a few ordinary details — age, neighbourhood, job — can single a person out. Ma'man reads a CSV file, measures how easily its rows could be re-identified, and builds a safer copy that keeps as much of the data as it can.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#demo" data-i18n="hero.cta1">Watch it analyze a file</a>
+        <a class="btn btn-ghost" href="#screens" data-i18n="hero.cta2">See the app</a>
+      </div>
+      <p class="fine"><span class="ic-lock" aria-hidden="true"></span><span data-i18n="hero.fine">A local-first research prototype: it runs on your own Mac (Apple Silicon), so files never leave the computer. It is not a hosted service.</span></p>
+    </div>
+
+    <figure class="hero-visual" aria-label="Before and after risk indicator from a real run">
+      <div class="frame">
+        <div class="frame-bar"><i></i><i></i><i></i><span>localhost · Ma'man</span></div>
+        <img src="assets/screens/04-result.webp" alt="Ma'man result screen showing a risk indicator of 99.7 out of 100 (critical) for the German Credit file" width="1600" height="899" fetchpriority="high">
+      </div>
+      <div class="float f1">
+        <span class="k" data-i18n="hero.before">Original file</span>
+        <b class="v red">99.7<small>/100</small></b>
+        <span class="tag tag-red" data-i18n="lvl.critical">Critical</span>
+      </div>
+      <div class="float f2">
+        <span class="k" data-i18n="hero.after">Safer copy</span>
+        <b class="v green">0.9<small>/100</small></b>
+        <span class="tag tag-green" data-i18n="lvl.low">Low</span>
+      </div>
+      <figcaption data-i18n="hero.cap">Real run · German Credit (1,000 rows) · public-release setting</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═════════════ PROBLEM ═════════════ -->
+<section class="sec" id="problem">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="prob.eyebrow">The problem</span>
+      <h2 data-i18n="prob.h2">Deleting the name column isn't anonymisation.</h2>
+      <p data-i18n="prob.p">Datasets get shared for research, reporting and analysis all the time. The usual step is to drop names and ID numbers — but the columns that remain still describe people. When a combination of them is rare, anyone who already knows those few facts about someone can find that person's row, and with it everything else the row says.</p>
+    </div>
+
+    <div class="prob-grid">
+      <div class="card linkage" aria-label="Illustration of a linkage attack">
+        <div class="lk-head">
+          <span class="mono small" data-i18n="prob.tbl">shared_dataset.csv</span>
+          <span class="chip-x" data-i18n="prob.namesgone">names removed</span>
+        </div>
+        <div class="lk-table" role="table">
+          <div class="lk-row lk-th" role="row"><span role="columnheader" class="strike" data-i18n="prob.c0">name</span><span role="columnheader" data-i18n="prob.c1">age</span><span role="columnheader" data-i18n="prob.c2">district</span><span role="columnheader" data-i18n="prob.c3">job</span><span role="columnheader" data-i18n="prob.c4">diagnosis</span></div>
+          <div class="lk-row" role="row"><span class="strike">██████</span><span>34</span><span data-i18n="prob.d1">Al-Olaya</span><span data-i18n="prob.j1">teacher</span><span data-i18n="prob.x1">asthma</span></div>
+          <div class="lk-row hit" role="row"><span class="strike">██████</span><span>58</span><span data-i18n="prob.d2">Al-Narjis</span><span data-i18n="prob.j2">pilot</span><span class="leak" data-i18n="prob.x2">diabetes</span></div>
+          <div class="lk-row" role="row"><span class="strike">██████</span><span>34</span><span data-i18n="prob.d1">Al-Olaya</span><span data-i18n="prob.j1">teacher</span><span data-i18n="prob.x3">none</span></div>
+          <div class="lk-row" role="row"><span class="strike">██████</span><span>41</span><span data-i18n="prob.d3">Al-Rawdah</span><span data-i18n="prob.j3">engineer</span><span data-i18n="prob.x3">none</span></div>
+        </div>
+        <div class="lk-know">
+          <span class="k" data-i18n="prob.know">Someone knows their neighbour is</span>
+          <span class="mono" data-i18n="prob.knowval">58 · Al-Narjis · pilot</span>
+          <span class="arrow" aria-hidden="true">→</span>
+          <span class="res" data-i18n="prob.match">exactly 1 row matches</span>
+        </div>
+        <p class="illus" data-i18n="prob.illus">Illustrative example with invented values.</p>
+      </div>
+
+      <div class="prob-stats">
+        <div class="stat card">
+          <b class="big">496<small>/500</small></b>
+          <p data-i18n="prob.s1">people in a linkage test on German Credit could still be matched to exactly one row after names alone were removed.</p>
+        </div>
+        <div class="stat card">
+          <b class="big">99.4<small>%</small></b>
+          <p data-i18n="prob.s2">of the 1,000 rows in that file were one of a kind on the details someone might already know.</p>
+        </div>
+        <div class="stat card accent">
+          <b class="big">0<small>/500</small></b>
+          <p data-i18n="prob.s3">matched exactly one row in Ma'man's safer copy, under the same test conditions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ DEMO ═════════════ -->
+<section class="sec sec-demo" id="demo">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow" data-i18n="demo.eyebrow">Interactive replay</span>
+      <h2 data-i18n="demo.h2">Drop the file and watch the analysis.</h2>
+      <p data-i18n="demo.p">Drag the sample file into the box (or press play). The steps, labels and numbers are replayed from a real run of the local app — this page doesn't upload or analyse anything.</p>
+    </div>
+
+    <div class="demo" id="demoRoot" data-state="idle">
+      <!-- stepper -->
+      <ol class="stepper" aria-label="Analysis steps">
+        <li data-s="1"><span>1</span><em data-i18n="demo.st1">Read the table</em></li>
+        <li data-s="2"><span>2</span><em data-i18n="demo.st2">Label columns</em></li>
+        <li data-s="3"><span>3</span><em data-i18n="demo.st3">Measure risk</em></li>
+        <li data-s="4"><span>4</span><em data-i18n="demo.st4">Build safer copy</em></li>
+      </ol>
+
+      <div class="demo-body">
+        <!-- idle: dropzone -->
+        <div class="dz-wrap">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-describedby="dzHint">
+            <div class="dz-ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 13v8"/><path d="M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2"/><path d="m8 17 4-4 4 4"/></svg>
+            </div>
+            <b data-i18n="demo.dz">Drop german_credit.csv here</b>
+            <span id="dzHint" data-i18n="demo.dzhint">or press play — nothing leaves your browser</span>
+          </div>
+          <div class="dz-side">
+            <div class="filechip" id="fileChip" draggable="true" tabindex="0" role="button" aria-label="Sample file german_credit.csv — drag it into the box or press Enter">
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8"/></svg>
+              <span><b class="mono">german_credit.csv</b><small data-i18n="demo.chipmeta">1,000 rows · 21 columns · public UCI dataset</small></span>
+              <span class="grip" aria-hidden="true">⠿</span>
+            </div>
+            <button class="btn btn-primary" id="playBtn" type="button"><span aria-hidden="true">▶</span> <span data-i18n="demo.play">Play the analysis</span></button>
+          </div>
+        </div>
+
+        <!-- running/done: workspace -->
+        <div class="ws" id="ws" aria-live="polite">
+          <div class="ws-file">
+            <span class="ok" aria-hidden="true">✓</span>
+            <div><span class="eyebrow tiny" data-i18n="demo.ready">File ready</span><b class="mono">german_credit.csv</b></div>
+            <span class="meta mono">147.6 KB · 21 cols · 1,000 rows</span>
+          </div>
+
+          <div class="ws-grid">
+            <div class="ws-left">
+              <div class="panel" id="pTable">
+                <div class="panel-h"><b data-i18n="demo.preview">Preview</b><span class="small" data-i18n="demo.first">first rows, before anything is checked</span></div>
+                <div class="mini-table" id="miniTable"></div>
+              </div>
+              <div class="panel" id="pLog">
+                <div class="panel-h"><b data-i18n="demo.labelling">Labelling columns</b><span class="small mono" id="colCount">0 / 21</span></div>
+                <div class="bar"><i id="labelBar"></i></div>
+                <pre class="log mono" id="log"></pre>
+              </div>
+            </div>
+
+            <div class="ws-right">
+              <div class="panel gauge-panel" id="pGauge">
+                <div class="gauge" id="gauge" style="--p:0;--c:var(--red)">
+                  <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="g-bg" cx="60" cy="60" r="52"/><circle class="g-fg" cx="60" cy="60" r="52" id="gArc"/></svg>
+                  <div class="g-num"><b id="gVal">—</b><small>/100</small></div>
+                </div>
+                <div class="g-meta">
+                  <span class="tag" id="gTag">—</span>
+                  <span class="small" id="gLabel" data-i18n="demo.idx">re-identification risk indicator</span>
+                </div>
+                <div class="g-stats">
+                  <div><b id="sUnique">—</b><span data-i18n="demo.unique">rows one of a kind</span></div>
+                  <div><b id="sCols">—</b><span data-i18n="demo.needprot">columns need protection</span></div>
+                  <div><b id="sLink">—</b><span data-i18n="demo.link">linkage test: unique matches</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel cols-panel" id="pCols">
+            <div class="panel-h"><b data-i18n="demo.what">What happens to each column</b>
+              <span class="legend"><i class="lg lg-amber"></i><span data-i18n="act.less">made less exact</span><i class="lg lg-red"></i><span data-i18n="act.rm">removed</span><i class="lg lg-teal"></i><span data-i18n="act.keep">kept unchanged</span></span>
+            </div>
+            <div class="colchips" id="colChips"></div>
+          </div>
+
+          <div class="ws-foot">
+            <p class="small" data-i18n="demo.foot">Replay of a real run in the local app: German Credit, 1,000 rows, "anyone could see it" (public release, k ≥ 10). Column labels shown are the app's own output for the first five columns.</p>
+            <button class="btn btn-ghost btn-sm" id="replayBtn" type="button" data-i18n="demo.replay">↺ Replay</button>
+          </div>
+        </div>
+      </div>
+      <p class="toast" id="toast" role="status" hidden></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ HOW IT WORKS ═════════════ -->
+<section class="sec" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="how.eyebrow">How it works</span>
+      <h2 data-i18n="how.h2">The model reads. The code counts.</h2>
+      <p data-i18n="how.p">Ma'man's core rule: a small language model interprets what each column means and explains the result in plain words, while deterministic Python code computes every number and applies every protection. The model never produces a score.</p>
+    </div>
+
+    <ol class="pipeline">
+      <li class="step">
+        <span class="n">01</span>
+        <h3 data-i18n="how.s1h">Read the table</h3>
+        <p data-i18n="how.s1p">Finds the real header row, skips title and note lines, detects the delimiter and encoding (UTF-8 / Windows-1256), and decides whether rows are people or aggregate statistics.</p>
+        <span class="who who-code" data-i18n="who.code">Code</span>
+      </li>
+      <li class="step">
+        <span class="n">02</span>
+        <h3 data-i18n="how.s2h">Label every column</h3>
+        <p data-i18n="how.s2p">Fixed rules catch obvious identifiers first. Then Qwen2.5-3B-Instruct, fine-tuned with LoRA and given the 3 most similar labelled examples retrieved with multilingual E5, labels the rest: direct identifier, quasi-identifier, sensitive, or record key.</p>
+        <span class="who who-ai" data-i18n="who.ai">LLM + retrieval</span>
+      </li>
+      <li class="step">
+        <span class="n">03</span>
+        <h3 data-i18n="how.s3h">Measure the risk</h3>
+        <p data-i18n="how.s3p">Groups rows that share the same identifying details and computes a 0–100 indicator: 100 × the average of 1/k, where k is the group size. Also checks l-diversity for sensitive categories and the residual risk if an attacker knows one more column.</p>
+        <span class="who who-code" data-i18n="who.code">Code</span>
+      </li>
+      <li class="step">
+        <span class="n">04</span>
+        <h3 data-i18n="how.s4h">Protect each column by its role</h3>
+        <p data-i18n="how.s4p">Removes identifiers and free text, masks e-mail or phone only when that stays safe, and generalises the revealing details (age bands, month/year dates, ranges) until every group has at least k people for the chosen audience.</p>
+        <span class="who who-code" data-i18n="who.code">Code</span>
+      </li>
+      <li class="step">
+        <span class="n">05</span>
+        <h3 data-i18n="how.s5h">Re-check and explain</h3>
+        <p data-i18n="how.s5p">Re-measures the risk on the exported CSV itself, so the report always matches the file. The model writes a plain-language summary, and code verifies every number in it.</p>
+        <span class="who who-both" data-i18n="who.both">Code + LLM</span>
+      </li>
+    </ol>
+
+    <div class="how-extra">
+      <div class="card audience">
+        <h3 data-i18n="aud.h">Protection depends on who will see the data</h3>
+        <div class="aud-row"><b data-i18n="aud.pub">Public release</b><span class="mono">k ≥ 10 · l ≥ 2</span></div>
+        <div class="aud-row"><b data-i18n="aud.part">Shared with a partner</b><span class="mono">k ≥ 5 · l ≥ 2</span></div>
+        <div class="aud-row"><b data-i18n="aud.int">Internal use</b><span class="mono">k ≥ 3 · l ≥ 1</span></div>
+        <p class="small" data-i18n="aud.note">At most 5% of values may be blanked to reach the target; otherwise the column is generalised further or removed.</p>
+      </div>
+      <div class="card scale">
+        <h3 data-i18n="sc.h">Reading the indicator</h3>
+        <div class="scale-bar" aria-hidden="true"><i class="z1"></i><i class="z2"></i><i class="z3"></i><i class="z4"></i></div>
+        <div class="scale-lbl"><span><b class="green" data-i18n="lvl.low">Low</b> 0–10</span><span><b class="amber" data-i18n="lvl.medium">Medium</b> –33.3</span><span><b class="red" data-i18n="lvl.high">High</b> –66.7</span><span><b class="red" data-i18n="lvl.critical">Critical</b> –100</span></div>
+        <p class="small" data-i18n="sc.note">An indicator of how distinguishable rows are within the file — not a probability that someone will be identified. A low score supports a decision; it doesn't guarantee anonymity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ SCREENS ═════════════ -->
+<section class="sec" id="screens">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="scr.eyebrow">The application</span>
+      <h2 data-i18n="scr.h2">Five screens, from upload to safer copy.</h2>
+      <p data-i18n="scr.p">Screenshots of the Streamlit app running locally on German Credit. The interface is in English and accepts Arabic or English column names.</p>
+    </div>
+
+    <div class="gallery">
+      <div class="g-tabs" role="tablist" aria-label="App screens">
+        <button role="tab" aria-selected="true" data-i="0"><span>1</span><b data-i18n="scr.t1">Upload</b></button>
+        <button role="tab" aria-selected="false" data-i="1"><span>2</span><b data-i18n="scr.t2">Preview</b></button>
+        <button role="tab" aria-selected="false" data-i="2"><span>3</span><b data-i18n="scr.t3">Analyzing</b></button>
+        <button role="tab" aria-selected="false" data-i="3"><span>4</span><b data-i18n="scr.t4">Result</b></button>
+        <button role="tab" aria-selected="false" data-i="4"><span>5</span><b data-i18n="scr.t5">Safer copy</b></button>
+      </div>
+      <div class="g-stage">
+        <div class="frame big">
+          <div class="frame-bar"><i></i><i></i><i></i><span>localhost:8501</span></div>
+          <img id="gImg" src="assets/screens/01-upload.webp" alt="" width="1600" height="912">
+        </div>
+        <p class="g-cap" id="gCap"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ RESULTS ═════════════ -->
+<section class="sec" id="results">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow" data-i18n="res.eyebrow">Evaluation</span>
+      <h2 data-i18n="res.h2">Measured on data the model never saw.</h2>
+      <p data-i18n="res.p">236 hand-labelled columns from 20 datasets, split by dataset so no file appears in two splits: 110 columns for training, 24 for validation and 102 from 9 held-out datasets for testing (65 English, 27 Arabic, 10 Arabizi).</p>
+    </div>
+
+    <div class="res-grid">
+      <div class="card chart" aria-labelledby="chartTitle">
+        <div class="chart-h">
+          <h3 id="chartTitle" data-i18n="res.ch">Column-role classification · Macro-F1</h3>
+          <span class="small" data-i18n="res.chsub">102 held-out columns · higher is better</span>
+        </div>
+        <ul class="bars">
+          <li style="--v:.564"><span class="lbl" data-i18n="m.knn">Retrieval only (kNN)</span><span class="track"><i></i></span><b>0.564</b></li>
+          <li style="--v:.655"><span class="lbl" data-i18n="m.zs">Qwen, zero-shot</span><span class="track"><i></i></span><b>0.655</b></li>
+          <li style="--v:.664"><span class="lbl" data-i18n="m.rag">Qwen + RAG</span><span class="track"><i></i></span><b>0.664</b></li>
+          <li style="--v:.723"><span class="lbl" data-i18n="m.ft">Qwen + LoRA fine-tuning</span><span class="track"><i></i></span><b>0.723</b></li>
+          <li style="--v:.856"><span class="lbl" data-i18n="m.char">LoRA + RAG, char n-gram retrieval</span><span class="track"><i></i></span><b>0.856</b></li>
+          <li class="best" style="--v:.876"><span class="lbl" data-i18n="m.e5">LoRA + RAG, multilingual E5 (used in app)</span><span class="track"><i></i></span><b>0.876</b></li>
+        </ul>
+        <p class="small note" data-i18n="res.note">Exact match rises from 46% to 75.5%. E5 vs char n-grams: +0.020 Macro-F1, but the difference is not statistically significant (McNemar p = 0.65), and the final setup was chosen on this same test set — so it should be confirmed on a new hold-out.</p>
+      </div>
+
+      <div class="res-side">
+        <div class="card mini">
+          <span class="eyebrow tiny" data-i18n="res.k1">Safer copy · German Credit</span>
+          <div class="ba"><b class="red">99.7</b><span aria-hidden="true">→</span><b class="green">0.9</b></div>
+          <p class="small" data-i18n="res.k1p">Public-release setting, 1,000 rows. 4 columns made less exact, 13 removed, 4 kept.</p>
+        </div>
+        <div class="card mini ar-card">
+          <span class="eyebrow tiny" data-i18n="res.k2">Arabic columns</span>
+          <div class="ba"><b class="mint">85.2<small>%</small></b><small data-i18n="res.k2u">exact match</small></div>
+          <p class="small" data-i18n="res.k2p">On 27 held-out Arabic column names and values (English: 72.3%, Arabizi: 70%).</p>
+        </div>
+        <div class="card mini">
+          <span class="eyebrow tiny" data-i18n="res.k3">Testing</span>
+          <div class="ba"><b class="mint">179</b><small data-i18n="res.k3u">automated checks passed</small></div>
+          <p class="small" data-i18n="res.k3p">Including each technique on its own, and every exported CSV checked as text: no original identifiers, every group ≥ k, report equals file.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card limits">
+      <h3 data-i18n="lim.h">Honest limits</h3>
+      <ul>
+        <li data-i18n="lim.1">The score is an indicator within the file, not a probability, and the safer copy is not guaranteed to be anonymous. It supports human and regulatory review; it doesn't replace it.</li>
+        <li data-i18n="lim.2">Extra columns are checked one at a time; an attacker who knows several extra details together could do better (an optional "strictest" mode covers this).</li>
+        <li data-i18n="lim.3">The column search is greedy, so it may keep one column fewer than the best possible.</li>
+        <li data-i18n="lim.4">Runs locally on macOS with Apple Silicon (MLX); first setup downloads about 1.7 GB of models. There is no public online version.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ STACK + TEAM ═════════════ -->
+<section class="sec sec-last" id="about">
+  <div class="wrap">
+    <div class="stack">
+      <span class="eyebrow" data-i18n="stack.eyebrow">Built with</span>
+      <ul class="chips">
+        <li>Qwen2.5-3B-Instruct (4-bit)</li><li>LoRA</li><li>MLX</li><li>multilingual-e5-small</li><li>RAG</li>
+        <li>k-anonymity</li><li>l-diversity</li><li>Python · pandas</li><li>Streamlit</li>
+      </ul>
+    </div>
+
+    <div class="cta-card">
+      <div>
+        <h2 data-i18n="end.h">Want to see more?</h2>
+        <p data-i18n="end.p">The source code is private. A live walkthrough of the app is available on request from the team.</p>
+      </div>
+      <a class="btn btn-primary" href="#demo" data-i18n="end.btn">Replay the demo</a>
+    </div>
+
+    <div class="team">
+      <span class="eyebrow" data-i18n="team.eyebrow">Team</span>
+      <p class="names" data-i18n="team.names">Sultanah Alotaibi · Wafa Alotaibi · Samar Alfallaj</p>
+      <p class="small" data-i18n="team.p">Generative AI Application Engineering Bootcamp using Large Language Models — Tuwaiq Academy, 2026.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="sadu-bar" aria-hidden="true"></div>
+  <div class="foot-in">
+    <span><b>مأمن · MA'MAN</b> — <span data-i18n="foot.l">Understand the risk. Protect the data. Share with more confidence.</span></span>
+    <span class="small" data-i18n="foot.r">German Credit is a public UCI dataset. Qwen, MLX, E5 and Streamlit belong to their respective owners.</span>
+    <span class="copy small" data-i18n="foot.c">© 2026 Sultanah Alotaibi, Wafa Alotaibi and Samar Alfallaj. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
