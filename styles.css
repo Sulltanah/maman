@@ -207,6 +207,15 @@ html[dir="rtl"] .filechip { animation-name: nudge-rtl; }
 .filechip small { color: var(--muted); font-size: .74rem; }
 .filechip .grip { margin-inline-start: auto; color: var(--faint); font-size: 1.1rem; }
 .dz-side .btn { width: 100%; }
+.files { display: grid; gap: .55rem; }
+.filechip.sel { border-color: var(--mint); box-shadow: 0 0 0 3px rgba(0, 245, 160, .12); }
+.filechip:not(.sel) { animation: none; }
+.ws-again { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .7rem; }
+.files.mini { display: flex; flex-wrap: wrap; gap: .4rem; }
+.fbtn { font: 500 .74rem var(--mono); color: var(--muted); background: rgba(5, 14, 27, .7); border: 1px solid var(--line2); border-radius: 8px; padding: .35rem .6rem; cursor: pointer; }
+.fbtn:hover { color: var(--ink); border-color: var(--teal); }
+.fbtn.sel { color: #061524; background: var(--btn-grad); border-color: transparent; }
+.mini-table[dir="rtl"] th, .mini-table[dir="rtl"] td { text-align: right; font-family: var(--font); }
 
 .ws { display: none; }
 .demo:not([data-state="idle"]) .dz-wrap { display: none; }
@@ -232,7 +241,7 @@ html[dir="rtl"] .filechip { animation-name: nudge-rtl; }
 .mini-table tr.r.in { opacity: 1; transform: none; }
 .bar { height: 6px; border-radius: 99px; background: rgba(255, 255, 255, .06); overflow: hidden; margin-bottom: .7rem; }
 .bar i { display: block; height: 100%; width: 0; background: var(--grad); border-radius: inherit; transition: width .25s linear; }
-.log { margin: 0; height: 12.2em; overflow: hidden; padding: .7rem .85rem; border-radius: 10px; background: var(--deep); border: 1px solid rgba(255, 255, 255, .05); font-size: .74rem; line-height: 1.65; color: #5EEAD4; white-space: pre-wrap; direction: ltr; text-align: left; }
+.log { margin: 0; height: 13.6em; overflow: hidden; padding: .7rem .85rem; border-radius: 10px; background: var(--deep); border: 1px solid rgba(255, 255, 255, .05); font-size: .74rem; line-height: 1.65; color: #5EEAD4; white-space: pre-wrap; direction: ltr; text-align: left; }
 .log .dimline { color: var(--faint); }
 .log .caret { display: inline-block; width: 7px; height: 1em; background: var(--mint); vertical-align: -2px; animation: blink 1s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }
@@ -341,6 +350,8 @@ html[dir="rtl"] .ba { justify-content: flex-end; }
 .cta-card h2 { font-size: clamp(1.4rem, 2.8vw, 2rem); margin-bottom: .5rem; }
 .cta-card p { color: var(--muted); max-width: 36rem; }
 .cta-card .btn span { direction: ltr; }
+.cta-btns { display: flex; flex-wrap: wrap; gap: .6rem; }
+@media (max-width: 560px) { .cta-btns, .cta-btns .btn { width: 100%; } .cta-btns .mono { font-size: .8rem; } }
 .team { text-align: center; display: grid; gap: .5rem; justify-items: center; }
 .team .names { color: var(--ink); font-size: 1.05rem; font-weight: 600; }
 

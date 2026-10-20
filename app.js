@@ -32,10 +32,10 @@
 
     'demo.eyebrow': 'إعادة عرض تفاعلية',
     'demo.h2': 'أفلِت الملف وشاهد التحليل.',
-    'demo.p': 'اسحب ملف العيّنة إلى المربع (أو اضغط تشغيل). الخطوات والتصنيفات والأرقام مُعادة من تشغيل حقيقي للتطبيق المحلي — هذه الصفحة لا ترفع أي ملف ولا تحلّله.',
+    'demo.p': 'اختر واحدًا من ثلاثة ملفات عيّنة واسحبه إلى المربع (أو اضغط تشغيل). الخطوات والتصنيفات والأرقام مُعادة من تشغيل حقيقي للتطبيق المحلي — هذه الصفحة لا ترفع أي ملف ولا تحلّله.',
     'demo.st1': 'قراءة الجدول', 'demo.st2': 'تصنيف الأعمدة', 'demo.st3': 'قياس الخطر', 'demo.st4': 'إنشاء النسخة الأكثر أمانًا',
-    'demo.dz': 'أفلِت german_credit.csv هنا', 'demo.dzhint': 'أو اضغط تشغيل — لا شيء يغادر متصفحك',
-    'demo.chipmeta': '1,000 صف · 21 عمودًا · بيانات UCI عامة',
+    'demo.dz': 'أفلِت ملف العيّنة هنا', 'demo.pick': 'اختر ملف عيّنة', 'demo.another': 'جرّب ملفًا آخر:',
+    'demo.people': 'صفوف تصف أشخاصًا', 'demo.small': 'مجاميع أقل من 10', 'demo.changed': 'أعمدة تغيّرت', 'demo.idxagg': 'التعرّض على مستوى الأشخاص', 'demo.dzhint': 'أو اضغط تشغيل — لا شيء يغادر متصفحك',
     'demo.play': 'شغّل التحليل', 'demo.ready': 'الملف جاهز',
     'demo.preview': 'معاينة', 'demo.first': 'أول الصفوف، قبل أي فحص',
     'demo.labelling': 'تصنيف الأعمدة',
@@ -93,9 +93,9 @@
     'lim.4': 'يعمل محليًا على macOS بمعالج Apple Silicon ‏(MLX)، ويحمّل نحو 1.7 جيجابايت من النماذج عند الإعداد الأول. لا توجد نسخة عامة على الإنترنت.',
 
     'stack.eyebrow': 'التقنيات',
-    'end.h': 'هل تريد معرفة المزيد؟',
-    'end.p': 'الكود المصدري خاص. ويمكن طلب عرض مباشر للتطبيق من الفريق.',
-    'end.btn': 'أعِد العرض التفاعلي',
+    'end.h': 'تريد تجربته على بياناتك؟',
+    'end.p': 'يعمل مأمن بشكل خاص على جهازنا، والكود المصدري غير منشور. لتشغيل مباشر على بياناتك، أو عرض للتطبيق، أو إن كان المشروع يهمّك، تواصل مع سلطانة.',
+    'nav.contact': 'تواصل',
     'team.eyebrow': 'الفريق',
     'team.names': 'سلطانة العتيبي · وفاء العتيبي · سمر الفلاج',
     'team.p': 'معسكر هندسة تطبيقات الذكاء الاصطناعي التوليدي باستخدام النماذج اللغوية الكبيرة — أكاديمية طويق، 2026.',
@@ -105,6 +105,8 @@
   };
   var EN_EXTRA = {
     'demo.notreal': "This page doesn't read or upload your file — Ma'man analyses files only on your own computer. Playing the recorded run instead.",
+    'demo.unique': 'rows one of a kind', 'demo.needprot': 'columns need protection', 'demo.link': 'linkage test: unique matches',
+    'demo.people': 'rows that describe people', 'demo.small': 'totals below 10', 'demo.changed': 'columns changed', 'demo.idxagg': 'person-level exposure',
     'demo.reading': 'Reading the table…', 'demo.measuring': 'Measuring risk…', 'demo.protecting': 'Protecting each column…'
   };
   var TITLE = {
@@ -194,33 +196,96 @@
 
   setLang(initial, false);
 
-  /* ───────────── Interactive replay (data from a real run on German Credit) ───────────── */
-  var COLS = ['checking_status', 'duration', 'credit_history', 'purpose', 'credit_amount', 'savings_status', 'employment',
-    'installment_commitment', 'personal_status', 'other_parties', 'residence_since', 'property_magnitude', 'age',
-    'other_payment_plans', 'housing', 'existing_credits', 'job', 'num_dependents', 'own_telephone', 'foreign_worker', 'class'];
-  var LESS = ['checking_status', 'employment', 'credit_amount', 'installment_commitment'];
-  var KEEP = ['property_magnitude', 'other_payment_plans', 'existing_credits', 'class'];
-  var ROWS = [
-    ['<0 DM', '6', 'critical/other existing credit', 'radio/tv', '1169', 'no known savings', '>=7 years'],
-    ['0<=X<200 DM', '48', 'existing paid', 'radio/tv', '5951', '<100 DM', '1<=X<4 years'],
-    ['no checking', '12', 'critical/other existing credit', 'education', '2096', '<100 DM', '4<=X<7 years'],
-    ['<0 DM', '42', 'existing paid', 'furniture/equipment', '7882', '<100 DM', '4<=X<7 years'],
-    ['<0 DM', '24', 'delayed previously', 'new car', '4870', '<100 DM', '1<=X<4 years']
-  ];
-  var LOG = [ // the app's own labels for the first five columns, as shown on its Analyzing screen
-    'checking_status → reveals when combined',
-    'duration → reveals when combined',
-    'credit_history → reveals when combined, private',
-    'purpose → reveals when combined',
-    'credit_amount → private'
-  ];
+  /* ───────────── Interactive replay: three sample files, numbers from Ma'man's own engine ───────────── */
+  var DATA = {
+    german: {
+      file: 'german_credit.csv', kb: '147.6 KB', rowsN: '1,000', colsN: 21,
+      chipEn: '1,000 rows · 21 columns · public UCI credit data', chipAr: '1,000 صف · 21 عمودًا · بيانات ائتمان عامة من UCI',
+      cols: ['checking_status', 'duration', 'credit_history', 'purpose', 'credit_amount', 'savings_status', 'employment',
+        'installment_commitment', 'personal_status', 'other_parties', 'residence_since', 'property_magnitude', 'age',
+        'other_payment_plans', 'housing', 'existing_credits', 'job', 'num_dependents', 'own_telephone', 'foreign_worker', 'class'],
+      head: 7,
+      rows: [
+        ['<0 DM', '6', 'critical/other existing credit', 'radio/tv', '1169', 'no known savings', '>=7 years'],
+        ['0<=X<200 DM', '48', 'existing paid', 'radio/tv', '5951', '<100 DM', '1<=X<4 years'],
+        ['no checking', '12', 'critical/other existing credit', 'education', '2096', '<100 DM', '4<=X<7 years'],
+        ['<0 DM', '42', 'existing paid', 'furniture/equipment', '7882', '<100 DM', '4<=X<7 years'],
+        ['<0 DM', '24', 'delayed previously', 'new car', '4870', '<100 DM', '1<=X<4 years']
+      ],
+      log: ['checking_status → reveals when combined', 'duration → reveals when combined',
+        'credit_history → reveals when combined, private', 'purpose → reveals when combined', 'credit_amount → private'],
+      less: ['checking_status', 'employment', 'credit_amount', 'installment_commitment'],
+      keep: ['property_magnitude', 'other_payment_plans', 'existing_credits', 'class'],
+      before: 99.7, after: 0.9,
+      stats: [['demo.unique', '99.4%', '0%'], ['demo.needprot', '17 / 21', '17 / 21'], ['demo.link', '496 / 500', '0 / 500']],
+      footEn: 'Replay of a real run in the local app: German Credit, 1,000 rows, "anyone could see it" (public release, k ≥ 10). The labels shown are the app\'s own output (Qwen + E5) for the first five columns.',
+      footAr: 'إعادة عرض لتشغيل حقيقي في التطبيق المحلي: German Credit، 1,000 صف، إعداد «يراه أي أحد» (نشر عام، k ≥ 10). التصنيفات المعروضة هي مخرجات التطبيق نفسه (Qwen + E5) لأول خمسة أعمدة.'
+    },
+    adult: {
+      file: 'adult.csv', kb: '3,463.8 KB', rowsN: '32,561', colsN: 15,
+      chipEn: '32,561 rows · 15 columns · public UCI census data', chipAr: '32,561 صفًا · 15 عمودًا · بيانات تعداد عامة من UCI',
+      cols: ['age', 'workclass', 'fnlwgt', 'education', 'education_num', 'marital_status', 'occupation', 'relationship',
+        'race', 'sex', 'capital_gain', 'capital_loss', 'hours_per_week', 'native_country', 'income'],
+      head: 7,
+      rows: [
+        ['39', 'State-gov', '77516', 'Bachelors', '13', 'Never-married', 'Adm-clerical'],
+        ['50', 'Self-emp-not-inc', '83311', 'Bachelors', '13', 'Married-civ-spouse', 'Exec-managerial'],
+        ['38', 'Private', '215646', 'HS-grad', '9', 'Divorced', 'Handlers-cleaners'],
+        ['53', 'Private', '234721', '11th', '7', 'Married-civ-spouse', 'Handlers-cleaners'],
+        ['28', 'Private', '338409', 'Bachelors', '13', 'Married-civ-spouse', 'Prof-specialty']
+      ],
+      log: ['age → reveals when combined', 'workclass → reveals when combined', 'fnlwgt → survey weight, checked as an extra detail',
+        'marital_status → reveals when combined, private', 'income → private'],
+      less: ['age', 'workclass', 'fnlwgt', 'education', 'education_num', 'occupation', 'race', 'capital_gain', 'capital_loss', 'hours_per_week', 'native_country'],
+      keep: ['sex', 'income'],
+      before: 66.2, after: 0.6,
+      stats: [['demo.unique', '53.7%', '0%'], ['demo.needprot', '13 / 15', '13 / 15'], ['demo.link', '270 / 500', '0 / 500']],
+      footEn: 'Computed by Ma\'man\'s risk engine on the full Adult file (32,561 rows, public release, k ≥ 10) with the team\'s reviewed column labels. Adult was part of the model\'s training data, so it is shown for the protection step. 31,006 rows kept (4.8% left out).',
+      footAr: 'محسوبة بمحرك الخطر في مأمن على ملف Adult كاملًا (32,561 صفًا، نشر عام، k ≥ 10) بتصنيفات الأعمدة المعتمدة من الفريق. كان Adult ضمن بيانات تدريب النموذج، لذا يُعرض هنا لخطوة الحماية. بقي 31,006 صفوف (استُبعد 4.8%).'
+    },
+    sdaia: {
+      file: 'sdaia_budget_2022.csv', kb: '0.7 KB', rowsN: '5', colsN: 5, aggregate: true,
+      chipEn: '5 rows · 5 columns · SDAIA open data (Arabic)', chipAr: '5 صفوف · 5 أعمدة · بيانات مفتوحة من سدايا',
+      cols: ['اسم البند', 'الاعتماد الاصلي', 'الاعتماد بعد التعديل', 'المنصرف', 'نسبة الصرف'],
+      head: 5,
+      rows: [
+        ['تعويضات العاملين', '1,266,860,000.00', '1,306,323,203.00', '1,271,106,085.13', '97%'],
+        ['السلع والخدمات', '223,890,000.00', '998,566,221.00', '991,993,978.75', '99%'],
+        ['البرامج', '468,911,000.00', '788,598,616.00', '731,349,525.71', '93%'],
+        ['المشاريع', '1,526,911,144.00', '799,289,113.00', '736,897,556.90', '92%'],
+        ['الاجمالي', '3,486,572,144.00', '3,892,777,153.00', '3,731,347,146.49', '96%']
+      ],
+      log: ['2 title lines skipped · header found on line 5', 'Each row is a different “اسم البند” followed only by numbers',
+        'Row “الاجمالي” adds up the other rows', 'Row type: summary table, not people', 'No count below 10 that could point to a few people'],
+      less: [], keep: ['اسم البند', 'الاعتماد الاصلي', 'الاعتماد بعد التعديل', 'المنصرف', 'نسبة الصرف'],
+      before: 0, after: 0,
+      stats: [['demo.people', '0', '0'], ['demo.small', '0', '0'], ['demo.changed', '0 / 5', '0 / 5']],
+      footEn: 'Ma\'man\'s table reader on the published SDAIA 2022 budget: it skips the title lines, sees that each row is a budget item, not a person, and leaves the file unchanged. 0 / 100 is person-level exposure, not a re-identification index.',
+      footAr: 'قارئ الجداول في مأمن على ميزانية سدايا 2022 المنشورة: يتخطى أسطر العنوان، ويعرف أن كل صف بند ميزانية وليس شخصًا، فيترك الملف كما هو. والرقم 0 من 100 هو التعرّض على مستوى الأشخاص، وليس مؤشر إعادة التعرّف.'
+    }
+  };
+  var ORDER = ['german', 'adult', 'sdaia'];
+  var cur = 'german';
 
   var demo = document.getElementById('demoRoot');
   var dz = document.getElementById('dropzone');
-  var chip = document.getElementById('fileChip');
   var toast = document.getElementById('toast');
   var el = function (id) { return document.getElementById(id); };
   var runId = 0;
+  var esc = function (s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
+  var FILE_ICON = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8l6 6v12a2 2 0 0 1-2 2z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h8"/></svg>';
+
+  function renderFiles() {
+    el('fileList').innerHTML = ORDER.map(function (k) {
+      var d = DATA[k];
+      return '<div class="filechip' + (k === cur ? ' sel' : '') + '" data-k="' + k + '" draggable="true" tabindex="0" role="button" aria-pressed="' + (k === cur) + '">' +
+        FILE_ICON + '<span><b class="mono">' + d.file + '</b><small>' + (lang === 'ar' ? d.chipAr : d.chipEn) + '</small></span><span class="grip" aria-hidden="true">⠿</span></div>';
+    }).join('');
+    el('fileList2').innerHTML = ORDER.map(function (k) {
+      return '<button type="button" class="fbtn mono' + (k === cur ? ' sel' : '') + '" data-k="' + k + '">' + DATA[k].file + '</button>';
+    }).join('');
+  }
+  function pick(k) { if (DATA[k]) { cur = k; renderFiles(); } }
 
   function wait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms); }); }
   function setStep(n) {
@@ -244,26 +309,36 @@
   function levelOf(v) { return v <= 10 ? ['low', 'var(--green)', 'tag-green'] : v <= 33.3 ? ['medium', 'var(--amber)', 'tag-amber'] : v <= 66.7 ? ['high', 'var(--red)', 'tag-red'] : ['critical', 'var(--red)', 'tag-red']; }
   function setGauge(v) {
     var g = el('gauge'), L = levelOf(v);
-    g.style.setProperty('--p', v.toFixed(2));
+    g.style.setProperty('--p', Math.max(v, 0.6).toFixed(2));
     g.style.setProperty('--c', L[1]);
     el('gVal').textContent = v.toFixed(1);
   }
   function setTag(v) { var L = levelOf(v), tag = el('gTag'); tag.className = 'tag ' + L[2]; tag.textContent = t('lvl.' + L[0]); }
 
   function reset() {
+    var d = DATA[cur];
+    el('wsName').textContent = d.file;
+    el('wsMeta').textContent = d.kb + ' · ' + d.colsN + ' cols · ' + d.rowsN + ' rows';
+    el('wsFoot').textContent = lang === 'ar' ? d.footAr : d.footEn;
+    el('gLabel').textContent = t(d.aggregate ? 'demo.idxagg' : 'demo.idx');
     el('gVal').textContent = '—'; el('gTag').className = 'tag'; el('gTag').textContent = '—';
     el('gauge').style.setProperty('--p', 0); el('gauge').style.setProperty('--c', 'var(--red)');
-    ['sUnique', 'sCols', 'sLink'].forEach(function (id) { el(id).textContent = '—'; });
-    el('labelBar').style.width = '0%'; el('colCount').textContent = '0 / 21'; el('log').innerHTML = '';
-    var head = '<tr>' + COLS.slice(0, 7).map(function (c) { return '<th>' + c + '</th>'; }).join('') + '<th>…</th></tr>';
-    el('miniTable').innerHTML = '<table><thead>' + head + '</thead><tbody>' + ROWS.map(function (r) {
-      return '<tr class="r">' + r.map(function (c) { return '<td>' + c.replace(/</g, '&lt;') + '</td>'; }).join('') + '<td>…</td></tr>';
+    d.stats.forEach(function (s, i) { el('s' + (i + 1)).textContent = '—'; el('s' + (i + 1) + 'l').textContent = t(s[0]); });
+    el('labelBar').style.width = '0%'; el('colCount').textContent = '0 / ' + d.colsN; el('log').innerHTML = '';
+    var more = d.cols.length > d.head;
+    var head = '<tr>' + d.cols.slice(0, d.head).map(function (c) { return '<th>' + esc(c) + '</th>'; }).join('') + (more ? '<th>…</th>' : '') + '</tr>';
+    el('miniTable').setAttribute('dir', d.aggregate ? 'rtl' : 'ltr');
+    el('miniTable').innerHTML = '<table><thead>' + head + '</thead><tbody>' + d.rows.map(function (r) {
+      return '<tr class="r">' + r.map(function (c) { return '<td>' + esc(c) + '</td>'; }).join('') + (more ? '<td>…</td>' : '') + '</tr>';
     }).join('') + '</tbody></table>';
-    el('colChips').innerHTML = COLS.map(function (c) { return '<span class="cc" data-c="' + c + '">' + c + '</span>'; }).join('');
+    el('colChips').innerHTML = d.cols.map(function (c) { return '<span class="cc">' + esc(c) + '</span>'; }).join('');
     panel('pTable', 'dim'); panel('pLog', 'dim'); panel('pGauge', 'dim'); panel('pCols', 'dim');
+    renderFiles();
   }
 
-  async function run() {
+  async function run(k) {
+    if (typeof k === 'string') pick(k);
+    var d = DATA[cur], n = d.cols.length;
     var id = ++runId;
     var alive = function () { return id === runId; };
     demo.setAttribute('data-state', 'running');
@@ -274,45 +349,43 @@
     // 1 · read the table
     setStep(1); panel('pTable', 'live');
     var rows = el('miniTable').querySelectorAll('tr.r');
-    for (var i = 0; i < rows.length; i++) { await wait(260); if (!alive()) return; rows[i].classList.add('in'); }
-    await wait(500); if (!alive()) return;
+    for (var i = 0; i < rows.length; i++) { await wait(240); if (!alive()) return; rows[i].classList.add('in'); }
+    await wait(450); if (!alive()) return;
     panel('pTable', '');
 
-    // 2 · label columns
+    // 2 · label columns (or recognise a summary table)
     setStep(2); panel('pLog', 'live'); panel('pCols', 'live');
     var log = el('log'), chips = el('colChips').children;
-    for (var c = 0; c < COLS.length; c++) {
-      await wait(c < 5 ? 520 : 150); if (!alive()) return;
-      el('colCount').textContent = (c + 1) + ' / 21';
-      el('labelBar').style.width = ((c + 1) / 21 * 100) + '%';
+    for (var c = 0; c < n; c++) {
+      await wait(c < 5 ? 480 : Math.max(60, 1600 / n)); if (!alive()) return;
+      el('colCount').textContent = (c + 1) + ' / ' + n;
+      el('labelBar').style.width = ((c + 1) / n * 100) + '%';
       chips[c].classList.add('lab');
-      if (c < 5) log.innerHTML = LOG.slice(0, c + 1).join('\n') + ' <span class="caret"></span>';
-      else log.innerHTML = LOG.join('\n') + '\n<span class="dimline">… ' + COLS[c] + '</span> <span class="caret"></span>';
+      if (c < 5) log.innerHTML = esc(d.log.slice(0, c + 1).join('\n')) + ' <span class="caret"></span>';
+      else log.innerHTML = esc(d.log.join('\n')) + '\n<span class="dimline">… ' + esc(d.cols[c]) + '</span> <span class="caret"></span>';
     }
     await wait(400); if (!alive()) return;
-    log.innerHTML = LOG.join('\n') + '\n<span class="dimline">… 21 / 21 ✓</span>';
+    log.innerHTML = esc(d.log.join('\n')) + '\n<span class="dimline">… ' + n + ' / ' + n + ' ✓</span>';
     panel('pLog', ''); panel('pCols', '');
 
     // 3 · measure risk
     setStep(3); panel('pGauge', 'live');
-    await tween(0, 99.7, 1500, setGauge); if (!alive()) return;
-    setTag(99.7);
-    el('sUnique').textContent = '99.4%';
-    await wait(250); el('sCols').textContent = '17 / 21';
-    await wait(250); el('sLink').textContent = '496 / 500';
-    await wait(1100); if (!alive()) return;
+    await tween(0, d.before, d.before ? 1500 : 300, setGauge); if (!alive()) return;
+    setTag(d.before);
+    for (var s = 0; s < 3; s++) { el('s' + (s + 1)).textContent = d.stats[s][1]; await wait(250); }
+    await wait(900); if (!alive()) return;
 
     // 4 · safer copy
     setStep(4); panel('pCols', 'live');
-    for (var j = 0; j < COLS.length; j++) {
-      await wait(90); if (!alive()) return;
-      var name = COLS[j], cls = LESS.indexOf(name) > -1 ? 'less' : KEEP.indexOf(name) > -1 ? 'keep' : 'rm';
+    for (var j = 0; j < n; j++) {
+      await wait(Math.max(50, 1800 / n)); if (!alive()) return;
+      var name = d.cols[j], cls = d.less.indexOf(name) > -1 ? 'less' : d.keep.indexOf(name) > -1 ? 'keep' : 'rm';
       chips[j].classList.remove('lab'); chips[j].classList.add(cls);
     }
     await wait(300); if (!alive()) return;
-    await tween(99.7, 0.9, 1600, setGauge); if (!alive()) return;
-    setTag(0.9);
-    el('sUnique').textContent = '0%'; el('sLink').textContent = '0 / 500';
+    if (d.before !== d.after) { await tween(d.before, d.after, 1600, setGauge); if (!alive()) return; }
+    setTag(d.after);
+    for (var q = 0; q < 3; q++) el('s' + (q + 1)).textContent = d.stats[q][2];
     setStep(5); panel('pGauge', ''); panel('pCols', '');
     demo.setAttribute('data-state', 'done');
   }
@@ -321,28 +394,35 @@
     toast.textContent = msg; toast.hidden = false;
     clearTimeout(showToast.t); showToast.t = setTimeout(function () { toast.hidden = true; }, 5200);
   }
+  function chipKey(e) { var c = e.target.closest('[data-k]'); return c ? c.getAttribute('data-k') : null; }
 
-  el('playBtn').addEventListener('click', run);
-  el('replayBtn').addEventListener('click', run);
-  dz.addEventListener('click', run);
+  el('playBtn').addEventListener('click', function () { run(); });
+  el('replayBtn').addEventListener('click', function () { run(); });
+  el('fileList2').addEventListener('click', function (e) { var k = chipKey(e); if (k) run(k); });
+  dz.addEventListener('click', function () { run(); });
   dz.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); run(); } });
-  chip.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); run(); } });
-  chip.addEventListener('dblclick', run);
-  chip.addEventListener('dragstart', function (e) { chip.classList.add('dragging'); try { e.dataTransfer.setData('text/plain', 'maman-sample'); e.dataTransfer.effectAllowed = 'copy'; } catch (x) {} });
-  chip.addEventListener('dragend', function () { chip.classList.remove('dragging'); });
+  var list = el('fileList');
+  list.addEventListener('click', function (e) { var k = chipKey(e); if (!k) return; if (window.matchMedia('(hover: none)').matches) run(k); else pick(k); });
+  list.addEventListener('dblclick', function (e) { var k = chipKey(e); if (k) run(k); });
+  list.addEventListener('keydown', function (e) { var k = chipKey(e); if (k && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); run(k); } });
+  list.addEventListener('dragstart', function (e) {
+    var k = chipKey(e); if (!k) return; pick(k);
+    var c = list.querySelector('[data-k="' + k + '"]'); if (c) c.classList.add('dragging');
+    try { e.dataTransfer.setData('text/plain', 'maman:' + k); e.dataTransfer.effectAllowed = 'copy'; } catch (x) {}
+  });
+  list.addEventListener('dragend', function () { Array.prototype.forEach.call(list.children, function (c) { c.classList.remove('dragging'); }); });
   ['dragenter', 'dragover'].forEach(function (ev) { dz.addEventListener(ev, function (e) { e.preventDefault(); dz.classList.add('over'); }); });
   ['dragleave', 'dragend'].forEach(function (ev) { dz.addEventListener(ev, function () { dz.classList.remove('over'); }); });
   dz.addEventListener('drop', function (e) {
     e.preventDefault(); dz.classList.remove('over');
-    var dt = e.dataTransfer;
+    var dt = e.dataTransfer, k = null;
+    try { var v = dt.getData('text/plain') || ''; if (v.indexOf('maman:') === 0) k = v.slice(6); } catch (x) {}
     if (dt && dt.files && dt.files.length) showToast(t('demo.notreal')); // a real file is never read
-    run();
+    run(k || undefined);
   });
   // avoid the browser opening a file dropped anywhere else on the page
   ['dragover', 'drop'].forEach(function (ev) { window.addEventListener(ev, function (e) { if (!dz.contains(e.target)) e.preventDefault(); }); });
-
-  // touch: tapping the chip plays (drag & drop isn't available on most phones)
-  chip.addEventListener('click', function () { if (window.matchMedia('(hover: none)').matches) run(); });
+  document.getElementById('langBtn').addEventListener('click', function () { if (demo.getAttribute('data-state') === 'idle') reset(); else { renderFiles(); el('wsFoot').textContent = lang === 'ar' ? DATA[cur].footAr : DATA[cur].footEn; } });
 
   /* ───────────── Reveal, bars, nav highlight ───────────── */
   var revealTargets = document.querySelectorAll('.sec-head, .card, .step, .demo, .gallery, .cta-card, .stack, .team');
