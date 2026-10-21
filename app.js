@@ -33,7 +33,8 @@
     'demo.eyebrow': 'إعادة عرض تفاعلية',
     'demo.h2': 'أفلِت الملف وشاهد التحليل.',
     'demo.p': 'اختر واحدًا من ثلاثة ملفات عيّنة واسحبه إلى المربع (أو اضغط تشغيل). الخطوات والتصنيفات والأرقام مُعادة من تشغيل حقيقي للتطبيق المحلي — هذه الصفحة لا ترفع أي ملف ولا تحلّله.',
-    'demo.st1': 'قراءة الجدول', 'demo.st2': 'تصنيف الأعمدة', 'demo.st3': 'قياس الخطر', 'demo.st4': 'إنشاء النسخة الأكثر أمانًا',
+    'demo.st1': 'قراءة الجدول', 'demo.st2': 'تصنيف الأعمدة', 'demo.st3': 'قياس الخطر', 'demo.st4': 'إنشاء النسخة الأكثر أمانًا', 'demo.st4none': 'لا حاجة لتغييرات',
+    'demo.nochange': 'لا حاجة لتحويلات خصوصية إضافية بناءً على التقييم الحالي. الملف الأصلي لم يتغيّر، وهذا لا يضمن إخفاء الهوية.',
     'demo.dz': 'أفلِت ملف العيّنة هنا', 'demo.pick': 'اختر ملف عيّنة', 'demo.another': 'جرّب ملفًا آخر:',
     'demo.people': 'صفوف تصف أشخاصًا', 'demo.small': 'مجاميع أقل من 10', 'demo.changed': 'أعمدة تغيّرت', 'demo.idxagg': 'التعرّض على مستوى الأشخاص', 'demo.dzhint': 'أو اضغط تشغيل — لا شيء يغادر متصفحك',
     'demo.play': 'شغّل التحليل', 'demo.ready': 'الملف جاهز',
@@ -97,16 +98,19 @@
     'end.p': 'يعمل مأمن بشكل خاص على جهازنا، والكود المصدري غير منشور. لتشغيل مباشر على بياناتك، أو عرض للتطبيق، أو إن كان المشروع يهمّك، تواصل مع سلطانة.',
     'nav.contact': 'تواصل',
     'team.eyebrow': 'الفريق',
-    'team.names': 'سلطانة العتيبي · وفاء العتيبي · سمر الفلاج',
+    'team.m1': 'سلطانة العتيبي', 'team.m2': 'وفاء العتيبي', 'team.m3': 'سمر الفلاج',
+    'end.li': 'تواصل مع سلطانة',
     'team.p': 'معسكر هندسة تطبيقات الذكاء الاصطناعي التوليدي باستخدام النماذج اللغوية الكبيرة — أكاديمية طويق، 2026.',
     'foot.l': 'افهم الخطر. احمِ البيانات. شارك بثقة أكبر.',
     'foot.c': '© 2026 سلطانة العتيبي، وفاء العتيبي، سمر الفلاج. جميع الحقوق محفوظة.',
-    'foot.r': 'German Credit مجموعة بيانات عامة من UCI. ‏Qwen و MLX و E5 و Streamlit ملك لأصحابها.'
+    'foot.src': 'مصادر البيانات'
   };
   var EN_EXTRA = {
     'demo.notreal': "This page doesn't read or upload your file — Ma'man analyses files only on your own computer. Playing the recorded run instead.",
     'demo.unique': 'rows one of a kind', 'demo.needprot': 'columns need protection', 'demo.link': 'linkage test: unique matches',
     'demo.people': 'rows that describe people', 'demo.small': 'totals below 10', 'demo.changed': 'columns changed', 'demo.idxagg': 'person-level exposure',
+    'demo.st4none': 'No changes needed',
+    'demo.nochange': 'No additional privacy transformations are needed based on the current assessment. The original file is unchanged, and this does not guarantee anonymity.',
     'demo.reading': 'Reading the table…', 'demo.measuring': 'Measuring risk…', 'demo.protecting': 'Protecting each column…'
   };
   var TITLE = {
@@ -219,6 +223,8 @@
       before: 99.7, after: 0.9,
       stats: [['demo.unique', '99.4%', '0%'], ['demo.needprot', '17 / 21', '17 / 21'], ['demo.link', '496 / 500', '0 / 500']],
       footEn: 'Replay of a real run in the local app: German Credit, 1,000 rows, "anyone could see it" (public release, k ≥ 10). The labels shown are the app\'s own output (Qwen + E5) for the first five columns.',
+      credEn: 'Data: Statlog (German Credit Data) by H. Hofmann, UCI Machine Learning Repository · CC BY 4.0',
+      credAr: 'البيانات: Statlog (German Credit Data) لـ H. Hofmann، مستودع UCI لتعلّم الآلة · CC BY 4.0',
       footAr: 'إعادة عرض لتشغيل حقيقي في التطبيق المحلي: German Credit، 1,000 صف، إعداد «يراه أي أحد» (نشر عام، k ≥ 10). التصنيفات المعروضة هي مخرجات التطبيق نفسه (Qwen + E5) لأول خمسة أعمدة.'
     },
     adult: {
@@ -241,6 +247,8 @@
       before: 66.2, after: 0.6,
       stats: [['demo.unique', '53.7%', '0%'], ['demo.needprot', '13 / 15', '13 / 15'], ['demo.link', '270 / 500', '0 / 500']],
       footEn: 'Computed by Ma\'man\'s risk engine on the full Adult file (32,561 rows, public release, k ≥ 10) with the team\'s reviewed column labels. Adult was part of the model\'s training data, so it is shown for the protection step. 31,006 rows kept (4.8% left out).',
+      credEn: 'Data: Adult by B. Becker & R. Kohavi, UCI Machine Learning Repository · CC BY 4.0 · preprocessed copy',
+      credAr: 'البيانات: Adult لـ B. Becker و R. Kohavi، مستودع UCI لتعلّم الآلة · CC BY 4.0 · نسخة معالَجة مسبقًا',
       footAr: 'محسوبة بمحرك الخطر في مأمن على ملف Adult كاملًا (32,561 صفًا، نشر عام، k ≥ 10) بتصنيفات الأعمدة المعتمدة من الفريق. كان Adult ضمن بيانات تدريب النموذج، لذا يُعرض هنا لخطوة الحماية. بقي 31,006 صفوف (استُبعد 4.8%).'
     },
     sdaia: {
@@ -261,6 +269,8 @@
       before: 0, after: 0,
       stats: [['demo.people', '0', '0'], ['demo.small', '0', '0'], ['demo.changed', '0 / 5', '0 / 5']],
       footEn: 'Ma\'man\'s table reader on the published SDAIA 2022 budget: it skips the title lines, sees that each row is a budget item, not a person, and leaves the file unchanged. 0 / 100 is person-level exposure, not a re-identification index.',
+      credEn: 'Data: budgets of the Saudi Data and AI Authority (2022), Saudi Open Data Platform · KSA Open Data License',
+      credAr: 'البيانات: ميزانيات الهيئة السعودية للبيانات والذكاء الاصطناعي (2022)، البوابة السعودية للبيانات المفتوحة · رخصة البيانات المفتوحة',
       footAr: 'قارئ الجداول في مأمن على ميزانية سدايا 2022 المنشورة: يتخطى أسطر العنوان، ويعرف أن كل صف بند ميزانية وليس شخصًا، فيترك الملف كما هو. والرقم 0 من 100 هو التعرّض على مستوى الأشخاص، وليس مؤشر إعادة التعرّف.'
     }
   };
@@ -313,6 +323,7 @@
     g.style.setProperty('--c', L[1]);
     el('gVal').textContent = v.toFixed(1);
   }
+  function setStep4Label(none) { var em = demo.querySelector('.stepper li[data-s="4"] em'); if (em) em.textContent = t(none ? 'demo.st4none' : 'demo.st4'); }
   function setTag(v) { var L = levelOf(v), tag = el('gTag'); tag.className = 'tag ' + L[2]; tag.textContent = t('lvl.' + L[0]); }
 
   function reset() {
@@ -320,6 +331,9 @@
     el('wsName').textContent = d.file;
     el('wsMeta').textContent = d.kb + ' · ' + d.colsN + ' cols · ' + d.rowsN + ' rows';
     el('wsFoot').textContent = lang === 'ar' ? d.footAr : d.footEn;
+    el('wsCredit').textContent = lang === 'ar' ? d.credAr : d.credEn;
+    el('noChange').hidden = true; el('pCols').classList.remove('none');
+    setStep4Label(false);
     el('gLabel').textContent = t(d.aggregate ? 'demo.idxagg' : 'demo.idx');
     el('gVal').textContent = '—'; el('gTag').className = 'tag'; el('gTag').textContent = '—';
     el('gauge').style.setProperty('--p', 0); el('gauge').style.setProperty('--c', 'var(--red)');
@@ -375,7 +389,18 @@
     for (var s = 0; s < 3; s++) { el('s' + (s + 1)).textContent = d.stats[s][1]; await wait(250); }
     await wait(900); if (!alive()) return;
 
-    // 4 · safer copy
+    // 4 · safer copy (a summary table needs none: the file is left as it is, like the app does)
+    if (d.aggregate) {
+      setStep4Label(true); setStep(4); panel('pCols', 'live');
+      el('pCols').classList.add('none');
+      el('noChange').textContent = t('demo.nochange'); el('noChange').hidden = false;
+      await wait(900); if (!alive()) return;
+      setTag(d.after);
+      for (var z = 0; z < 3; z++) el('s' + (z + 1)).textContent = d.stats[z][2];
+      setStep(5); panel('pGauge', ''); panel('pCols', '');
+      demo.setAttribute('data-state', 'done');
+      return;
+    }
     setStep(4); panel('pCols', 'live');
     for (var j = 0; j < n; j++) {
       await wait(Math.max(50, 1800 / n)); if (!alive()) return;
@@ -422,7 +447,7 @@
   });
   // avoid the browser opening a file dropped anywhere else on the page
   ['dragover', 'drop'].forEach(function (ev) { window.addEventListener(ev, function (e) { if (!dz.contains(e.target)) e.preventDefault(); }); });
-  document.getElementById('langBtn').addEventListener('click', function () { if (demo.getAttribute('data-state') === 'idle') reset(); else { renderFiles(); el('wsFoot').textContent = lang === 'ar' ? DATA[cur].footAr : DATA[cur].footEn; } });
+  document.getElementById('langBtn').addEventListener('click', function () { if (demo.getAttribute('data-state') === 'idle') reset(); else { renderFiles(); el('wsFoot').textContent = lang === 'ar' ? DATA[cur].footAr : DATA[cur].footEn; el('wsCredit').textContent = lang === 'ar' ? DATA[cur].credAr : DATA[cur].credEn; if (!el('noChange').hidden) { el('noChange').textContent = t('demo.nochange'); setStep4Label(true); } } });
 
   /* ───────────── Reveal, bars, nav highlight ───────────── */
   var revealTargets = document.querySelectorAll('.sec-head, .card, .step, .demo, .gallery, .cta-card, .stack, .team');

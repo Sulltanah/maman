@@ -352,8 +352,17 @@ html[dir="rtl"] .ba { justify-content: flex-end; }
 .cta-card .btn span { direction: ltr; }
 .cta-btns { display: flex; flex-wrap: wrap; gap: .6rem; }
 @media (max-width: 560px) { .cta-btns, .cta-btns .btn { width: 100%; } .cta-btns .mono { font-size: .8rem; } }
-.team { text-align: center; display: grid; gap: .5rem; justify-items: center; }
-.team .names { color: var(--ink); font-size: 1.05rem; font-weight: 600; }
+.team-sec { text-align: center; display: grid; gap: 1rem; justify-items: center; margin-top: clamp(2.5rem, 6vw, 4rem); }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%; }
+.member { display: grid; gap: .6rem; justify-items: center; padding: 1.4rem 1rem; border-radius: var(--r); border: 1px solid var(--line); background: var(--card); color: var(--ink); transition: border-color .2s, transform .2s, box-shadow .2s; }
+.member b { font-size: 1.12rem; font-weight: 700; }
+.member .li { display: inline-flex; align-items: center; gap: .4rem; font-size: .82rem; font-weight: 600; color: var(--teal); }
+.member:hover { color: var(--ink); border-color: var(--teal); transform: translateY(-2px); box-shadow: 0 12px 30px -14px rgba(0, 245, 160, .35); }
+.cols-panel.none .legend { visibility: hidden; }
+.nochange { margin-top: .9rem; padding: .8rem 1rem; border-radius: 12px; border: 1px solid var(--line2); background: rgba(0, 210, 184, .07); color: var(--ink); font-size: .88rem; line-height: 1.55; }
+.ws-foot .credit { color: var(--faint); font-size: .74rem; flex-basis: 100%; order: 3; }
+.foot-in .src { color: var(--muted); text-decoration: underline; text-decoration-color: rgba(148, 163, 184, .4); text-underline-offset: 3px; }
+.foot-in .src:hover { color: var(--teal); }
 
 /* ── Footer ── */
 .foot .sadu-bar { border-bottom: 0; border-top: 1px solid rgba(0, 210, 184, .18); }
@@ -386,6 +395,7 @@ html[dir="rtl"] .ba { justify-content: flex-end; }
 }
 @media (max-width: 560px) {
   body { font-size: 15px; }
+  .team-grid { grid-template-columns: 1fr; }
   .gh-link span { display: none; }
   .brand img { height: 34px; }
   .pipeline { grid-template-columns: 1fr; }

@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main" data-i18n="skip">Skip to content</a>
@@ -208,10 +208,12 @@
               <span class="legend"><i class="lg lg-amber"></i><span data-i18n="act.less">made less exact</span><i class="lg lg-red"></i><span data-i18n="act.rm">removed</span><i class="lg lg-teal"></i><span data-i18n="act.keep">kept unchanged</span></span>
             </div>
             <div class="colchips" id="colChips"></div>
+            <p class="nochange" id="noChange" hidden></p>
           </div>
 
           <div class="ws-foot">
             <p class="small" id="wsFoot"></p>
+            <p class="small credit" id="wsCredit"></p>
             <div class="ws-again">
               <span class="small" data-i18n="demo.another">Try another file:</span>
               <div class="files mini" id="fileList2"></div>
@@ -381,6 +383,25 @@
       </ul>
     </div>
 
+    <div class="team-sec" id="team">
+      <span class="eyebrow" data-i18n="team.eyebrow">The Team</span>
+      <div class="team-grid">
+        <a class="member" href="https://www.linkedin.com/in/alotaibi-sultanah" target="_blank" rel="noopener">
+          <b data-i18n="team.m1">Sultanah Alotaibi</b>
+          <span class="li"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg><span>LinkedIn</span></span>
+        </a>
+        <a class="member" href="https://www.linkedin.com/in/wafa-alotaibi-013a23299" target="_blank" rel="noopener">
+          <b data-i18n="team.m2">Wafa Alotaibi</b>
+          <span class="li"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg><span>LinkedIn</span></span>
+        </a>
+        <a class="member" href="https://www.linkedin.com/in/samar-alfallaj-52a0b728a" target="_blank" rel="noopener">
+          <b data-i18n="team.m3">Samar Alfallaj</b>
+          <span class="li"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg><span>LinkedIn</span></span>
+        </a>
+      </div>
+      <p class="small" data-i18n="team.p">Generative AI Application Engineering Bootcamp using Large Language Models — Tuwaiq Academy, 2026.</p>
+    </div>
+
     <div class="cta-card" id="contact">
       <div>
         <h2 data-i18n="end.h">Want to try it on your own data?</h2>
@@ -389,7 +410,7 @@
       <div class="cta-btns">
         <a class="btn btn-primary" href="https://www.linkedin.com/in/alotaibi-sultanah" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg>
-          <span>LinkedIn</span>
+          <span data-i18n="end.li">Get in touch with Sultanah</span>
         </a>
         <a class="btn btn-ghost" href="mailto:alotaibisultana1@gmail.com">
           <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
@@ -398,11 +419,6 @@
       </div>
     </div>
 
-    <div class="team">
-      <span class="eyebrow" data-i18n="team.eyebrow">Team</span>
-      <p class="names" data-i18n="team.names">Sultanah Alotaibi · Wafa Alotaibi · Samar Alfallaj</p>
-      <p class="small" data-i18n="team.p">Generative AI Application Engineering Bootcamp using Large Language Models — Tuwaiq Academy, 2026.</p>
-    </div>
   </div>
 </section>
 </main>
@@ -411,11 +427,11 @@
   <div class="sadu-bar" aria-hidden="true"></div>
   <div class="foot-in">
     <span><b>مأمن · MA'MAN</b> — <span data-i18n="foot.l">Understand the risk. Protect the data. Share with more confidence.</span></span>
-    <span class="small" data-i18n="foot.r">German Credit is a public UCI dataset. Qwen, MLX, E5 and Streamlit belong to their respective owners.</span>
+    <a class="small src" href="https://github.com/Sulltanah/maman/blob/main/CREDITS.md" target="_blank" rel="noopener" data-i18n="foot.src">Data sources</a>
     <span class="copy small" data-i18n="foot.c">© 2026 Sultanah Alotaibi, Wafa Alotaibi and Samar Alfallaj. All rights reserved.</span>
   </div>
 </footer>
 
-<script src="app.js?v=2"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>
