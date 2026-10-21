@@ -352,8 +352,8 @@ html[dir="rtl"] .ba { justify-content: flex-end; }
 .cta-card .btn span { direction: ltr; }
 .cta-btns { display: flex; flex-wrap: wrap; gap: .6rem; }
 @media (max-width: 560px) { .cta-btns, .cta-btns .btn { width: 100%; } .cta-btns .mono { font-size: .8rem; } }
-.team-sec { text-align: center; display: grid; gap: 1rem; justify-items: center; margin-top: clamp(2.5rem, 6vw, 4rem); }
-.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%; }
+.team-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; width: 100%; flex-basis: 100%; }
+.cta-card .team-note { flex-basis: 100%; margin-top: -.5rem; font-size: .8rem; color: var(--faint); max-width: none; }
 .member { display: grid; gap: .6rem; justify-items: center; padding: 1.4rem 1rem; border-radius: var(--r); border: 1px solid var(--line); background: var(--card); color: var(--ink); transition: border-color .2s, transform .2s, box-shadow .2s; }
 .member b { font-size: 1.12rem; font-weight: 700; }
 .member .li { display: inline-flex; align-items: center; gap: .4rem; font-size: .82rem; font-weight: 600; color: var(--teal); }

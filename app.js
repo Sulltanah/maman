@@ -95,11 +95,9 @@
 
     'stack.eyebrow': 'التقنيات',
     'end.h': 'تريد تجربته على بياناتك؟',
-    'end.p': 'يعمل مأمن بشكل خاص على جهازنا، والكود المصدري غير منشور. لتشغيل مباشر على بياناتك، أو عرض للتطبيق، أو إن كان المشروع يهمّك، تواصل مع سلطانة.',
+    'end.p': 'يعمل مأمن بشكل خاص على جهازنا، والكود المصدري غير منشور. لتشغيل مباشر على بياناتك، أو عرض للتطبيق، أو إن كان المشروع يهمّك، تواصل مع أيٍّ منا.',
     'nav.contact': 'تواصل',
-    'team.eyebrow': 'الفريق',
     'team.m1': 'سلطانة العتيبي', 'team.m2': 'وفاء العتيبي', 'team.m3': 'سمر الفلاج',
-    'end.li': 'تواصل عبر LinkedIn',
     'team.p': 'معسكر هندسة تطبيقات الذكاء الاصطناعي التوليدي باستخدام النماذج اللغوية الكبيرة — أكاديمية طويق، 2026.',
     'foot.l': 'افهم الخطر. احمِ البيانات. شارك بثقة أكبر.',
     'foot.c': '© 2026 سلطانة العتيبي، وفاء العتيبي، سمر الفلاج. جميع الحقوق محفوظة.',
@@ -297,7 +295,8 @@
   }
   function pick(k) { if (DATA[k]) { cur = k; renderFiles(); } }
 
-  function wait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms); }); }
+  var PACE = 1.6; // demo speed: >1 slower, so each step can be read
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, reduce ? 0 : ms * PACE); }); }
   function setStep(n) {
     Array.prototype.forEach.call(demo.querySelectorAll('.stepper li'), function (li) {
       var s = +li.getAttribute('data-s');
@@ -310,7 +309,7 @@
       if (reduce) { fn(to); return res(); }
       var t0 = performance.now();
       (function f(now) {
-        var k = Math.min(1, (now - t0) / ms), e = 1 - Math.pow(1 - k, 3);
+        var k = Math.min(1, (now - t0) / (ms * PACE)), e = 1 - Math.pow(1 - k, 3);
         fn(from + (to - from) * e);
         if (k < 1) requestAnimationFrame(f); else res();
       })(t0);
